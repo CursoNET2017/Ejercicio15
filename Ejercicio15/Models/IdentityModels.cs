@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using System.Data.Entity;
 
 namespace Ejercicio15.Models
 {
@@ -24,6 +25,8 @@ namespace Ejercicio15.Models
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
+
+        public DbSet<Entrada> Entradas { get; set; }//Añadido para meer controller con framework
         
         public static ApplicationDbContext Create()
         {

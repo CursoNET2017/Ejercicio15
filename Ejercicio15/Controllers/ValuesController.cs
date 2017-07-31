@@ -7,13 +7,13 @@ using System.Web.Http;
 
 namespace Ejercicio15.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class ValuesController : ApiController
     {
         // GET api/values
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new string[] { "valueMio", "valueOtro" };
         }
 
         // GET api/values/5
