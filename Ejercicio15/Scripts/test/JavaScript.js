@@ -51,28 +51,28 @@ describe("POST suite", function () {
     }, 1000);
 });
 
-//describe("PUT suite", function () {
-//    var resultado;
-//    it("prueba con PUT", function (done) {
-//        $.ajax({
-//            url: 'api/values/3',
-//            type: 'PUT',
-//            success: function (data) {
-//                resultado = data;
-//                done()
-//            }
-//        });
-//    });
+describe("PUT suite", function () {
+    var resultado;
+    it("prueba con PUT", function (done) {
+        $.ajax({
+            url: 'api/values/3',
+            type: 'PUT',
+            success: function (data) {
+                resultado = data;
+                done()
+            }
+        });
+    });
 
-//    afterEach(function (done) {
-//        expect(resultado).toBe(resultado);
-//        done();
-//    }, 1000);
-//});
+    afterEach(function (done) {
+        expect(resultado).toBe(resultado);
+        done();
+    }, 1000);
+});
 
 describe("Delete suite", function () {
     var resultado;
-    it("prueba con Delete", function () {
+    it("prueba con Delete", function (done) {
         $.ajax({
             url: 'api/values/3',
             type: 'DELETE',
@@ -89,20 +89,20 @@ describe("Delete suite", function () {
     }, 1000);
 });
 
-describe("Get entradas", function () {
-    var resultado;
-    it("Get entrada Unica", function (done) {
-        var params = {
-            Precio: 3.4
-        };
-        $.post("api/Entradas", params, function (data) {
-            resultado = data;
-            done();//Hasta que no termina la funcion  nada
-        })
-    });
+//describe("Get entradas", function () {
+//    var resultado;
+//    it("Get entrada Unica", function (done) {
+//        var params = {
+//            Precio: 3.4
+//        };
+//        $.post("api/Entradas", params, function (data) {
+//            resultado = data;
+//            done();//Hasta que no termina la funcion  nada
+//        })
+//    });
 
-    afterEach(function (done) {
-        expect(resultado.Id != undefined).toBe(true);
-        done();
-    }, 1000);
-});
+//    afterEach(function (done) {
+//        expect(resultado.Id != undefined).toBe(true);
+//        done();
+//    }, 1000);
+//});

@@ -10,6 +10,8 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using Ejercicio15;
 using Ejercicio15.Models;
+using Ejercicio15.Repository;
+using Ejercicio15.Servicios;
 
 namespace Ejercicio15.Controllers
 {
@@ -80,8 +82,14 @@ namespace Ejercicio15.Controllers
                 return BadRequest(ModelState);
             }
 
-            db.Entradas.Add(entrada);
-            db.SaveChanges();
+            IEntradasRepository entradasRepository = new EntradasRepository();
+            IEntradasService entradasService = new EntradasService(entradasRepository);
+
+
+            entrada = entradasService.Create(entrada);
+
+            //db.Entradas.Add(entrada);
+            //db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = entrada.Id }, entrada);
         }
