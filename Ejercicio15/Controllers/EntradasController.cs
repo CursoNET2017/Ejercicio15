@@ -17,7 +17,7 @@ namespace Ejercicio15.Controllers
 {
     public class EntradasController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();//Eliminarlo y pasarlo a la capa de Repository
+        //private ApplicationDbContext db = new ApplicationDbContext();//Eliminarlo y pasarlo a la capa de Repository
         private IEntradasService entradasService;
 
         public EntradasController(IEntradasService _entradasService)
@@ -28,14 +28,15 @@ namespace Ejercicio15.Controllers
         // GET: api/Entradas
         public IQueryable<Entrada> GetEntradas()
         {
-            return db.Entradas;
+            return entradasService.GetEntradas();
+            //return db.Entradas;
         }
 
         // GET: api/Entradas/5
         [ResponseType(typeof(Entrada))]
         public IHttpActionResult GetEntrada(long id)
         {
-            Entrada entrada = entradasService.Buscar(id);
+            Entrada entrada = entradasService.Get(id);
             //Entrada entrada = db.Entradas.Find(id);
             if (entrada == null)
             {
@@ -58,23 +59,14 @@ namespace Ejercicio15.Controllers
             {
                 return BadRequest();
             }
-
-            db.Entry(entrada).State = EntityState.Modified;
-
+            
             try
             {
-                db.SaveChanges();
+                entradasService.Put(entrada);
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!EntradaExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+            catch (NoEncontradoException)
+            {                
+                    return NotFound();               
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -101,30 +93,30 @@ namespace Ejercicio15.Controllers
         [ResponseType(typeof(Entrada))]
         public IHttpActionResult DeleteEntrada(long id)
         {
-            Entrada entrada = db.Entradas.Find(id);
-            if (entrada == null)
+            Entrada entrada;
+            try
+            {
+                entrada = entradasService.Delete(id);
+            } catch (NoEncontradoException)
             {
                 return NotFound();
             }
 
-            db.Entradas.Remove(entrada);
-            db.SaveChanges();
-
             return Ok(entrada);
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
 
-        private bool EntradaExists(long id)
-        {
-            return db.Entradas.Count(e => e.Id == id) > 0;
-        }
+        //private bool EntradaExists(long id)
+        //{
+        //    return db.Entradas.Count(e => e.Id == id) > 0;
+        //}
     }
 }

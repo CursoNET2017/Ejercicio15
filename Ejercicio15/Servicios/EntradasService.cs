@@ -17,46 +17,149 @@ namespace Ejercicio15.Servicios
             this.entradasRepository = _entradasRepository;
         }
 
-        public Entrada Buscar(long id)
+        public Entrada Get(long id)
         {
-            return entradasRepository.Buscar(id);
+            Entrada entrada;
+            using (var context = new ApplicationDbContext())
+            {
+                ApplicationDbContext.applicationDbContext = context;
+                using (var dbContextTransaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        entrada = entradasRepository.Get(id);
+
+                        context.SaveChanges();
+
+                        dbContextTransaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        dbContextTransaction.Rollback();
+                        throw new Exception("He hecho rollback de la transacción", e);
+                    }
+                }
+            }
+            ApplicationDbContext.applicationDbContext = null;
+            return entrada;
+
+            //return entradasRepository.Get(id);
         }
 
         public Entrada Create(Entrada entrada)
         {
-            //using (var context = new ApplicationDbContext())
-            //{
-            //    //applicationDbContext = context;// La asigno al valor guardado anteriormente. Para poder usarlo en el repository
-            //    ApplicationDbContext.applicationDbContext = context;// La asigno al valor guardado anteriormente. Para poder usarlo en el repository
-            //    using (var dbContextTransaction = context.Database.BeginTransaction())
-            //    {
-            //        try
-            //        {
-            //            entradasRepository.Create(entrada);
+            using (var context = new ApplicationDbContext())
+            {
+                //applicationDbContext = context;// La asigno al valor guardado anteriormente. Para poder usarlo en el repository
+                ApplicationDbContext.applicationDbContext = context;// La asigno al valor guardado anteriormente. Para poder usarlo en el repository
+                using (var dbContextTransaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        entrada = entradasRepository.Create(entrada);
 
-            //            context.SaveChanges();
+                        context.SaveChanges();
 
-            //            dbContextTransaction.Commit();
-            //        } catch (Exception e)
-            //        {
-            //            dbContextTransaction.Rollback();
-            //            //throw e;
-            //            throw new Exception("He hecho rollback de la transaccion", e);// La 'e' dice la linea de la excepcion
-            //        }                    
-            //    }
-            //}
-            //return entrada;
-
-
-            return entradasRepository.Create(entrada);
+                        dbContextTransaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        dbContextTransaction.Rollback();
+                        //throw e;
+                        throw new Exception("He hecho rollback de la transaccion", e);// La 'e' dice la linea de la excepcion
+                    }
+                }
+            }
+            ApplicationDbContext.applicationDbContext = null;// Borro el valor
+            return entrada;
+            //return entradasRepository.Create(entrada);
         }
 
-        // GET: api/Entradas
+
         public IQueryable<Entrada> GetEntradas()
         {
-            return entradasRepository.GetEntradas();
+            IQueryable<Entrada> resultado;
+            using (var context = new ApplicationDbContext())
+            {
+                ApplicationDbContext.applicationDbContext = context;
+                using (var dbContextTransaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        resultado = entradasRepository.GetEntradas();
+
+                        context.SaveChanges();
+
+                        dbContextTransaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        dbContextTransaction.Rollback();
+                        throw new Exception("He hecho rollback de la transacción", e);
+                    }
+                }
+            }
+            ApplicationDbContext.applicationDbContext = null;
+            return resultado;            
         }
 
+        public Entrada Delete(long id)
+        {
+            Entrada entrada;
+            using (var context = new ApplicationDbContext())
+            {
+                //applicationDbContext = context;// La asigno al valor guardado anteriormente. Para poder usarlo en el repository
+                ApplicationDbContext.applicationDbContext = context;// La asigno al valor guardado anteriormente. Para poder usarlo en el repository
+                using (var dbContextTransaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        entrada = entradasRepository.Delete(id);
 
+                        context.SaveChanges();
+
+                        dbContextTransaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        dbContextTransaction.Rollback();
+                        throw new Exception("He hecho rollback de la transaccion", e);// La 'e' dice la linea de la excepcion
+                    }
+                }
+            }
+            ApplicationDbContext.applicationDbContext = null;// Borro el valor
+            return entrada;
+        }
+
+        public void Put(Entrada entrada)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                //applicationDbContext = context;// La asigno al valor guardado anteriormente. Para poder usarlo en el repository
+                ApplicationDbContext.applicationDbContext = context;// La asigno al valor guardado anteriormente. Para poder usarlo en el repository
+                using (var dbContextTransaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        entrada = entradasRepository.Put(entrada);
+
+                        context.SaveChanges();
+
+                        dbContextTransaction.Commit();
+                    }
+                    catch (NoEncontradoException)
+                    {
+                        dbContextTransaction.Rollback();
+                        throw;
+                    }
+                    catch (Exception e)
+                    {
+                        dbContextTransaction.Rollback();
+                        throw new Exception("He hecho rollback de la transacción", e);
+                    }
+                }
+            }
+            ApplicationDbContext.applicationDbContext = null;// Borro el valor
+        }
     }
 }

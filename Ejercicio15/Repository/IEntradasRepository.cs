@@ -9,7 +9,9 @@ namespace Ejercicio15.Repository
     public interface IEntradasRepository
     {
         Entrada Create(Entrada entrada);
-        Entrada Buscar(long id);
+        Entrada Get(long id);
         IQueryable<Entrada> GetEntradas();
+        Entrada Delete(long id);
+        void Put(Entrada entrada);
     }
 }
