@@ -17,7 +17,13 @@ namespace Ejercicio15.Controllers
 {
     public class EntradasController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db = new ApplicationDbContext();//Eliminarlo y pasarlo a la capa de Repository
+        private IEntradasService entradasService;
+
+        public EntradasController(IEntradasService _entradasService)
+        {
+            this.entradasService = _entradasService;
+        }
 
         // GET: api/Entradas
         public IQueryable<Entrada> GetEntradas()
@@ -29,7 +35,8 @@ namespace Ejercicio15.Controllers
         [ResponseType(typeof(Entrada))]
         public IHttpActionResult GetEntrada(long id)
         {
-            Entrada entrada = db.Entradas.Find(id);
+            Entrada entrada = entradasService.Buscar(id);
+            //Entrada entrada = db.Entradas.Find(id);
             if (entrada == null)
             {
                 return NotFound();
@@ -82,14 +89,10 @@ namespace Ejercicio15.Controllers
                 return BadRequest(ModelState);
             }
 
-            IEntradasRepository entradasRepository = new EntradasRepository();
-            IEntradasService entradasService = new EntradasService(entradasRepository);
-
+            //IEntradasRepository entradasRepository = new EntradasRepository();//Ya no hace falta es esta en el constructor
+            //IEntradasService entradasService = new EntradasService(entradasRepository);//Ya no hace falta es esta en el constructor el SERVICE con el Unity ya todo¿?
 
             entrada = entradasService.Create(entrada);
-
-            //db.Entradas.Add(entrada);
-            //db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = entrada.Id }, entrada);
         }

@@ -9,7 +9,7 @@ namespace Ejercicio15.Servicios
 {
     public class EntradasService : IEntradasService
     {
-        [ThreadStatic] public static ApplicationDbContext applicationDbContext;// Para poder usarlo en el repository
+        //[ThreadStatic] public static ApplicationDbContext applicationDbContext;// Para poder usarlo en el repository
 
         private IEntradasRepository entradasRepository;
         public EntradasService(IEntradasRepository _entradasRepository)
@@ -17,29 +17,46 @@ namespace Ejercicio15.Servicios
             this.entradasRepository = _entradasRepository;
         }
 
+        public Entrada Buscar(long id)
+        {
+            return entradasRepository.Buscar(id);
+        }
+
         public Entrada Create(Entrada entrada)
         {
-            using (var context = new ApplicationDbContext())
-            {
-                applicationDbContext = context;// La asigno al valor guardado anteriormente. Para poder usarlo en el repository
-                using (var dbContextTransaction = context.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        entradasRepository.Create(entrada);
+            //using (var context = new ApplicationDbContext())
+            //{
+            //    //applicationDbContext = context;// La asigno al valor guardado anteriormente. Para poder usarlo en el repository
+            //    ApplicationDbContext.applicationDbContext = context;// La asigno al valor guardado anteriormente. Para poder usarlo en el repository
+            //    using (var dbContextTransaction = context.Database.BeginTransaction())
+            //    {
+            //        try
+            //        {
+            //            entradasRepository.Create(entrada);
 
-                        context.SaveChanges();
+            //            context.SaveChanges();
 
-                        dbContextTransaction.Commit();
-                    } catch (Exception e)
-                    {
-                        dbContextTransaction.Rollback();
-                        //throw e;
-                        throw new Exception("He hecho rollback de la transaccion", e);// La 'e' dice la linea de la excepcion
-                    }                    
-                }
-            }
-            return entrada;
+            //            dbContextTransaction.Commit();
+            //        } catch (Exception e)
+            //        {
+            //            dbContextTransaction.Rollback();
+            //            //throw e;
+            //            throw new Exception("He hecho rollback de la transaccion", e);// La 'e' dice la linea de la excepcion
+            //        }                    
+            //    }
+            //}
+            //return entrada;
+
+
+            return entradasRepository.Create(entrada);
         }
+
+        // GET: api/Entradas
+        public IQueryable<Entrada> GetEntradas()
+        {
+            return entradasRepository.GetEntradas();
+        }
+
+
     }
 }

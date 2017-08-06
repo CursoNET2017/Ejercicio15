@@ -9,5 +9,7 @@ namespace Ejercicio15.Servicios
     public interface IEntradasService
     {
         Entrada Create(Entrada entrada);
+        Entrada Buscar(long id);
+        IQueryable<Entrada> GetEntradas();
     }
 }
