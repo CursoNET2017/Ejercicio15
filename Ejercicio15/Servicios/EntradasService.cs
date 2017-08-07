@@ -19,147 +19,145 @@ namespace Ejercicio15.Servicios
 
         public Entrada Get(long id)
         {
-            Entrada entrada;
-            using (var context = new ApplicationDbContext())
-            {
-                ApplicationDbContext.applicationDbContext = context;
-                using (var dbContextTransaction = context.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        entrada = entradasRepository.Get(id);
+            //Entrada entrada;
+            //using (var context = new ApplicationDbContext())
+            //{
+            //    ApplicationDbContext.applicationDbContext = context;
+            //    using (var dbContextTransaction = context.Database.BeginTransaction())
+            //    {
+            //        try
+            //        {
+                        return entradasRepository.Get(id);
 
-                        context.SaveChanges();
+                //        context.SaveChanges();
 
-                        dbContextTransaction.Commit();
-                    }
-                    catch (Exception e)
-                    {
-                        dbContextTransaction.Rollback();
-                        throw new Exception("He hecho rollback de la transacción", e);
-                    }
-                }
-            }
-            ApplicationDbContext.applicationDbContext = null;
-            return entrada;
+                //        dbContextTransaction.Commit();
+                //    }
+                //    catch (Exception e)
+                //    {
+                //        dbContextTransaction.Rollback();
+                //        throw new Exception("He hecho rollback de la transacción", e);
+                //    }
+                //}
+            //}
+            //ApplicationDbContext.applicationDbContext = null;
+            //return entrada;
 
-            //return entradasRepository.Get(id);
         }
 
         public Entrada Create(Entrada entrada)
         {
-            using (var context = new ApplicationDbContext())
-            {
-                //applicationDbContext = context;// La asigno al valor guardado anteriormente. Para poder usarlo en el repository
-                ApplicationDbContext.applicationDbContext = context;// La asigno al valor guardado anteriormente. Para poder usarlo en el repository
-                using (var dbContextTransaction = context.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        entrada = entradasRepository.Create(entrada);
+            //using (var context = new ApplicationDbContext())
+            //{
+            //    //applicationDbContext = context;// La asigno al valor guardado anteriormente. Para poder usarlo en el repository
+            //    ApplicationDbContext.applicationDbContext = context;// La asigno al valor guardado anteriormente. Para poder usarlo en el repository
+            //    using (var dbContextTransaction = context.Database.BeginTransaction())
+            //    {
+            //        try
+            //        {
+                        return entradasRepository.Create(entrada);
 
-                        context.SaveChanges();
+            //            context.SaveChanges();
 
-                        dbContextTransaction.Commit();
-                    }
-                    catch (Exception e)
-                    {
-                        dbContextTransaction.Rollback();
-                        //throw e;
-                        throw new Exception("He hecho rollback de la transaccion", e);// La 'e' dice la linea de la excepcion
-                    }
-                }
-            }
-            ApplicationDbContext.applicationDbContext = null;// Borro el valor
-            return entrada;
-            //return entradasRepository.Create(entrada);
+            //            dbContextTransaction.Commit();
+            //        }
+            //        catch (Exception e)
+            //        {
+            //            dbContextTransaction.Rollback();
+            //            //throw e;
+            //            throw new Exception("He hecho rollback de la transaccion", e);// La 'e' dice la linea de la excepcion
+            //        }
+            //    }
+            //}
+            //ApplicationDbContext.applicationDbContext = null;// Borro el valor
+            //return entrada;
         }
 
 
         public IQueryable<Entrada> GetEntradas()
         {
-            IQueryable<Entrada> resultado;
-            using (var context = new ApplicationDbContext())
-            {
-                ApplicationDbContext.applicationDbContext = context;
-                using (var dbContextTransaction = context.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        resultado = entradasRepository.GetEntradas();
+            //IQueryable<Entrada> resultado;
+            //using (var context = new ApplicationDbContext())
+            //{
+            //    ApplicationDbContext.applicationDbContext = context;
+            //    using (var dbContextTransaction = context.Database.BeginTransaction())
+            //    {
+            //        try
+            //        {
+                        return entradasRepository.GetEntradas();
 
-                        context.SaveChanges();
+                //        context.SaveChanges();
 
-                        dbContextTransaction.Commit();
-                    }
-                    catch (Exception e)
-                    {
-                        dbContextTransaction.Rollback();
-                        throw new Exception("He hecho rollback de la transacción", e);
-                    }
-                }
-            }
-            ApplicationDbContext.applicationDbContext = null;
-            return resultado;            
+                //        dbContextTransaction.Commit();
+                //    }
+                //    catch (Exception e)
+                //    {
+                //        dbContextTransaction.Rollback();
+                //        throw new Exception("He hecho rollback de la transacción", e);
+                //    }
+                //}
+            //}
+            //ApplicationDbContext.applicationDbContext = null;
+            //return resultado;            
         }
 
         public Entrada Delete(long id)
         {
-            Entrada entrada;
-            using (var context = new ApplicationDbContext())
-            {
-                //applicationDbContext = context;// La asigno al valor guardado anteriormente. Para poder usarlo en el repository
-                ApplicationDbContext.applicationDbContext = context;// La asigno al valor guardado anteriormente. Para poder usarlo en el repository
-                using (var dbContextTransaction = context.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        entrada = entradasRepository.Delete(id);
+            //Entrada entrada;
+            //using (var context = new ApplicationDbContext())
+            //{
+            //    //applicationDbContext = context;// La asigno al valor guardado anteriormente. Para poder usarlo en el repository
+            //    ApplicationDbContext.applicationDbContext = context;// La asigno al valor guardado anteriormente. Para poder usarlo en el repository
+            //    using (var dbContextTransaction = context.Database.BeginTransaction())
+            //    {
+            //        try
+            //        {
+                        return entradasRepository.Delete(id);
 
-                        context.SaveChanges();
+            //            context.SaveChanges();
 
-                        dbContextTransaction.Commit();
-                    }
-                    catch (Exception e)
-                    {
-                        dbContextTransaction.Rollback();
-                        throw new Exception("He hecho rollback de la transaccion", e);// La 'e' dice la linea de la excepcion
-                    }
-                }
-            }
-            ApplicationDbContext.applicationDbContext = null;// Borro el valor
-            return entrada;
+            //            dbContextTransaction.Commit();
+            //        }
+            //        catch (Exception e)
+            //        {
+            //            dbContextTransaction.Rollback();
+            //            throw new Exception("He hecho rollback de la transaccion", e);// La 'e' dice la linea de la excepcion
+            //        }
+            //    }
+            //}
+            //ApplicationDbContext.applicationDbContext = null;// Borro el valor
+            //return entrada;
         }
 
         public void Put(Entrada entrada)
         {
-            using (var context = new ApplicationDbContext())
-            {
-                //applicationDbContext = context;// La asigno al valor guardado anteriormente. Para poder usarlo en el repository
-                ApplicationDbContext.applicationDbContext = context;// La asigno al valor guardado anteriormente. Para poder usarlo en el repository
-                using (var dbContextTransaction = context.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        entrada = entradasRepository.Put(entrada);
+            //using (var context = new ApplicationDbContext())
+            //{
+            //    //applicationDbContext = context;// La asigno al valor guardado anteriormente. Para poder usarlo en el repository
+            //    ApplicationDbContext.applicationDbContext = context;// La asigno al valor guardado anteriormente. Para poder usarlo en el repository
+            //    using (var dbContextTransaction = context.Database.BeginTransaction())
+            //    {
+            //        try
+            //        {
+                        entradasRepository.Put(entrada);
 
-                        context.SaveChanges();
+        //                context.SaveChanges();
 
-                        dbContextTransaction.Commit();
-                    }
-                    catch (NoEncontradoException)
-                    {
-                        dbContextTransaction.Rollback();
-                        throw;
-                    }
-                    catch (Exception e)
-                    {
-                        dbContextTransaction.Rollback();
-                        throw new Exception("He hecho rollback de la transacción", e);
-                    }
-                }
-            }
-            ApplicationDbContext.applicationDbContext = null;// Borro el valor
+        //                dbContextTransaction.Commit();
+        //            }
+        //            catch (NoEncontradoException)
+        //            {
+        //                dbContextTransaction.Rollback();
+        //                throw;
+        //            }
+        //            catch (Exception e)
+        //            {
+        //                dbContextTransaction.Rollback();
+        //                throw new Exception("He hecho rollback de la transacción", e);
+        //            }
+        //        }
+        //    }
+        //    ApplicationDbContext.applicationDbContext = null;// Borro el valor
         }
     }
 }
